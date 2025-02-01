@@ -1,6 +1,37 @@
 ---
 import Layout from '../layouts/Layout.astro';
+import Badge from '../components/Badge.astro';
 ---
 
 <Layout>
+    <main>
+        <section class="p-20 flex justify-center items-center bg-[url(bakground-white.png)] bg-cover bg-center w-full">
+            <div class="pr10 max-w-[50%] ">
+                <Badge> Aviable for work</Badge>
+                <h1 class="text-3xl mt-4 mb-6">Hey, I'm Sergio Florez </h1>
+                <h2 class="text-xl text-balance">
+                    <span class="text-[rgb(47,76,121)] font-semibold">Computer scientist</span> 
+                    passionate about web development. 
+                    <span class="text-[rgb(47,76,121)] font-semibold">Full-stack developer</span> 
+                    with +2 years of experience building useful and stylish web apps.   From Bogota, Colombia 🇨🇴.
+                </h2>
+            </div>
+            <div>
+                <img class="ml-6 min-w-40 min-h-40 w-64 h-64 rounded-full" src="https://avatars.githubusercontent.com/u/110072366?v=4" alt="Sergio Florez" />
+            </div>
+        </section>
+        <div class="min-w-0 max-w-8xl w-full ">     
+            <div class="min-w-0 w-full bg-[rgb(200,35,55)] h-3"></div>
+            <div class="min-w-0 w-full bg-[rgb(224,98,54)] h-3"></div>
+            <div class="min-w-0 w-full bg-[rgb(215,171,97)] h-3"></div>
+            <div class="min-w-0 w-full bg-[rgb(47,76,121)] h-3"></div>
+        </div>
+        <section class=" flex flex-col p-20 justify-around bg-[url(/background-space-blue.jpg)] bg-cover bg-center w-full">
+            <div class="flex gap-3 items-center">
+                <img class="w-12 h-12 rounded-full text-white" src="/projects-icon.svg" alt="Projets" />
+                <h2 class="text-2xl font-bold text-white ">My Projects</h2>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+        </section>
+    </main>
 </Layout>
