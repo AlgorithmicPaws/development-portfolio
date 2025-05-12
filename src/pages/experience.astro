@@ -1,0 +1,94 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Badge from '../components/Badge.astro';
+
+const experiences = [
+  {
+    title: "Desarrollador Backend",
+    company: "ViP servicios de construccion y mantenimiento",
+    location: "Bogotá, Colombia",
+    date: "Enero 2025 - Mayo 2025",
+    achievements: [
+      "Desarrollé un eccomerce para mejorar la convercion de ventas de un negocio de construccion e insumos de construccion",
+      "La plataforma cuenta con cerca de 20 usuarios concurrentes y más de 100 visitas mensuales",
+      "Lideré el equipo encargado de implementar una API REST con FastAPI, que gestiona la base de datos, incluye autenticación segura y maneja sesiones de usuario. Integramos la API con un frontend interactivo desarrollado en React"
+    ]
+  },
+  {
+    title: "Lider de proyecto y Desarrollador Full Stack",
+    company: "Proyecto Focus Timers",
+    location: "Bogotá, Colombia",
+    date: "Junio 2024 - Diciembre 2024",
+    achievements: [
+      "Desarrollé una aplicación web que optimiza la productividad mediante técnicas como Pomodoro, Time Bag y Time Blocking",
+      "La plataforma cuenta con cerca de 50 usuarios concurrentes y más de 500 visitas mensuales, contribuyendo a mejorar la productividad de la comunidad académica local",
+      "Lideré el equipo encargado de implementar una API REST con FastAPI, que gestiona la base de datos, incluye autenticación segura y maneja sesiones de usuario. Integramos la API con un frontend interactivo desarrollado en React"
+    ]
+  },
+  {
+    title: "Desarrollador Full Stack",
+    company: "Wallet Trail",
+    location: "Bogotá, Colombia",
+    date: "Diciembre 2023 - Mayo 2024",
+    achievements: [
+      "Diseñé y desarrollé una aplicación web que facilita la planificación de presupuestos mensuales, ayudando a los usuarios a optimizar sus finanzas personales",
+      "La herramienta facilita el control y la planificación financiera mensual de los usuarios, promoviendo una gestión económica más organizada"
+    ]
+  },
+  {
+    title: "Tutor y Asistente de Profesor",
+    company: "Universidad Sergio Arboleda",
+    location: "Bogotá, Colombia",
+    date: "Febrero 2023 - Diciembre 2023",
+    achievements: [
+      "Preparé materiales educativos y talleres para cursos de Cálculo Diferencial y Matemáticas Empresariales, beneficiando a más de 80 estudiantes",
+      "Implementé estrategias pedagógicas personalizadas, resultando en una tasa de aprobación del 100% en los cursos que apoyé"
+    ]
+  }
+];
+---
+
+<Layout>
+  <main>
+    <section class="p-20 flex flex-col items-center">
+      <Badge>Mi Trayectoria Profesional</Badge>
+      <h1 class="text-3xl font-bold mb-6 mt-4">Experiencia Profesional</h1>
+      
+      <div class="timeline-container relative mx-auto max-w-4xl py-8">
+        {experiences.map((experience) => (
+          <div class="timeline-item mb-12 relative">
+            <div class="timeline-marker absolute left-0 w-6 h-6 rounded-full bg-[rgb(47,76,121)] border-4 border-white z-10"></div>
+            <div class="timeline-content ml-12 bg-white p-6 rounded-lg shadow-md relative">
+              <div class="absolute left-0 top-6 w-6 h-2 bg-[rgb(47,76,121)] -ml-6"></div>
+              <span class="inline-block px-3 py-1 text-sm rounded-full bg-[rgb(215,171,97)] text-white font-semibold mb-2">{experience.date}</span>
+              <h3 class="text-xl font-bold mb-1">{experience.title}</h3>
+              <h4 class="text-lg text-[rgb(200,35,55)] mb-1">{experience.company}</h4>
+              <p class="text-gray-600 mb-3 text-sm italic">{experience.location}</p>
+              <ul class="text-gray-700 list-disc pl-5 space-y-2">
+                {experience.achievements.map((achievement) => (
+                  <li>{achievement}</li>
+                ))}
+              </ul>
+            </div>
+          </div>
+        ))}
+      </div>
+      
+      <a href="/" class="mt-8 bg-[rgb(47,76,121)] text-white px-6 py-2 rounded-full hover:bg-[rgb(47,76,121)]/80 transition-colors">
+        Volver al Inicio
+      </a>
+    </section>
+  </main>
+</Layout>
+
+<style>
+  .timeline-container::before {
+    content: '';
+    position: absolute;
+    left: 3px;
+    top: 0;
+    height: 100%;
+    width: 2px;
+    background-color: #e5e7eb;
+  }
+</style>

@@ -2,34 +2,18 @@
 import Header from '../components/Header.astro'
 import '@fontsource-variable/onest'
 ---
+
 <!doctype html>
-<html lang="en">
+<html lang="en" class="scroll-smooth">
 	<head>
 		<meta charset="UTF-8" />
 		<meta name="viewport" content="width=device-width" />
 		<link rel="icon" type="image/svg+xml" href="/icon.svg" />
 		<meta name="generator" content={Astro.generator} />
-		<title>Portfolio |Sergio Florez</title>
+		<title>Portfolio | Sergio Florez</title>
 	</head>
-	<body>
+	<body class="w-full font-['Onest_Variable',system-ui] flex flex-col justify-center text-black bg-[url('../assets/background.png')] bg-cover bg-white/60 bg-blend-overlay">
 		<Header />
 		<slot />
 	</body>
 </html>
-
-<style>
-	html,	
-	body {
-		margin: 0;
-		width: 100%;
-		font-family: 'Onest Variable',system-ui;
-		display: flex;
-		flex-direction: column;
-		justify-content: center;
-		color: rgb(12, 12, 12);
-		background-image: url('../assets/background.png');
-		background-size: cover;	
-		background-color: rgba(255, 255, 255, .6);
-		background-blend-mode: overlay;
-	}
-</style>
