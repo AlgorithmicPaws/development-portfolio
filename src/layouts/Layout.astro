@@ -1,5 +1,6 @@
 ---
 import Header from '../components/Header.astro'
+import MaintenanceBanner from '../components/MaintenanceBanner.astro'
 import '@fontsource-variable/onest'
 ---
 
@@ -14,6 +15,7 @@ import '@fontsource-variable/onest'
 	</head>
 	<body class="w-full font-['Onest_Variable',system-ui] flex flex-col justify-center text-black bg-[url('../assets/background.png')] bg-cover bg-white/60 bg-blend-overlay">
 		<Header />
+		<MaintenanceBanner />
 		<slot />
 	</body>
 </html>
