@@ -1,27 +1,30 @@
 ---
 interface Props {
+  id: string;
   title: string;
   description: string;
   tags: string[];
-  image: string;
-  link: string;
+  images: string[];
+  repositoryUrl?: string | null;
+  siteUrl?: string | null;
 }
 
-const { title, description, tags, image, link } = Astro.props;
+const { id, title, description, tags, images, repositoryUrl, siteUrl } = Astro.props;
 ---
 
-<article class="bg-white rounded-xl overflow-hidden shadow-lg hover:shadow-xl transition-all duration-300 flex flex-col h-full group transform hover:-translate-y-2">
+<article class="bg-white rounded-xl overflow-hidden shadow-lg hover:shadow-xl transition-all duration-300 flex flex-col h-full group transform hover:-translate-y-2 cursor-pointer" data-project-card>
   <div class="relative">
-    <img src={image} alt={title} class="w-full h-48 object-cover" />
+    <img src={images[0]} alt={title} class="w-full h-48 object-cover" />
     <div class="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end">
-      <a href={link} target="_blank" rel="noopener noreferrer" class="w-full text-center bg-[rgb(47,76,121)] text-white py-2 hover:bg-[rgb(47,76,121)]/80 transition-colors">
+      <button class="w-full text-center bg-[rgb(47,76,121)] text-white py-2 hover:bg-[rgb(47,76,121)]/80 transition-colors">
         <span class="inline-flex items-center justify-center gap-1">
-          View Project
+          View Details
           <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3" />
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
           </svg>
         </span>
-      </a>
+      </button>
     </div>
   </div>
   <div class="p-4 flex-grow flex flex-col justify-between">
@@ -36,3 +39,21 @@ const { title, description, tags, image, link } = Astro.props;
     </div>
   </div>
 </article>
+
+<script define:vars={{ id, title, description, tags, images, repositoryUrl, siteUrl }}>
+  // Add click handler to open modal
+  const card = document.currentScript.parentElement.querySelector('[data-project-card]');
+  card?.addEventListener('click', () => {
+    if (window.openProjectModal) {
+      window.openProjectModal({
+        id,
+        title,
+        description,
+        tags,
+        images,
+        repositoryUrl,
+        siteUrl
+      });
+    }
+  });
+</script>

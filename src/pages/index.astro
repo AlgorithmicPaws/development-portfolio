@@ -2,52 +2,65 @@
 import Layout from '../layouts/Layout.astro';
 import Badge from '../components/Badge.astro';
 import ProjectCard from '../components/ProjectCard.astro';
+import ProjectModal from '../components/ProjectModal.astro';
 import ExperienceTimeline from '../components/ExperienceTimeline.astro';
 import ContactForm from '../components/ContactForm.astro';
 
 
 const projects = [
   {
+    id: "ecommerce",
     title: "E-commerce Platform",
     description: "A full-featured online store with payment processing and inventory management.",
     tags: ["React", "Node.js", "MongoDB", "Stripe"],
-    image: "/projects/ecommerce.jpg",
-    link: "https://github.com/username/ecommerce-project"
+    images: ["/projects/ecommerce.jpg", "/projects/ecommerce.jpg", "/projects/ecommerce.jpg"],
+    repositoryUrl: "https://github.com/username/ecommerce-project",
+    siteUrl: "https://ecommerce-demo.com"
   },
   {
+    id: "portfolio",
     title: "Portfolio Website",
     description: "Modern portfolio website built with Astro and Tailwind CSS.",
     tags: ["Astro", "Tailwind CSS", "JavaScript"],
-    image: "/projects/portfolio.jpg",
-    link: "https://github.com/username/portfolio"
+    images: ["/projects/portfolio.jpg", "/projects/portfolio.jpg"],
+    repositoryUrl: "https://github.com/username/portfolio",
+    siteUrl: "https://portfolio-demo.com"
   },
   {
+    id: "weather",
     title: "Weather App",
     description: "Real-time weather application with location detection and forecast.",
     tags: ["React", "Weather API", "Geolocation"],
-    image: "/projects/weather.jpg",
-    link: "https://github.com/username/weather-app"
+    images: ["/projects/weather.jpg", "/projects/weather.jpg", "/projects/weather.jpg"],
+    repositoryUrl: "https://github.com/username/weather-app",
+    siteUrl: "https://weather-demo.com"
   },
   {
+    id: "tasks",
     title: "Task Management App",
     description: "Collaborative task management system with real-time updates.",
     tags: ["Vue.js", "Firebase", "Tailwind CSS"],
-    image: "/projects/tasks.jpg",
-    link: "https://github.com/username/task-manager"
+    images: ["/projects/tasks.jpg", "/projects/tasks.jpg"],
+    repositoryUrl: "https://github.com/username/task-manager",
+    siteUrl: null
   },
   {
+    id: "blog",
     title: "Blog Platform",
     description: "Content management system for writers and content creators.",
     tags: ["Next.js", "GraphQL", "PostgreSQL"],
-    image: "/projects/blog.jpg",
-    link: "https://github.com/username/blog-platform"
+    images: ["/projects/blog.jpg", "/projects/blog.jpg", "/projects/blog.jpg"],
+    repositoryUrl: null,
+    siteUrl: "https://blog-demo.com"
   },
   {
+    id: "dashboard",
     title: "Social Media Dashboard",
     description: "Analytics dashboard for monitoring social media engagement.",
     tags: ["React", "D3.js", "Social APIs"],
-    image: "/projects/dashboard.jpg",
-    link: "https://github.com/username/social-dashboard"
+    images: ["/projects/dashboard.jpg"],
+    repositoryUrl: "https://github.com/username/social-dashboard",
+    siteUrl: "https://dashboard-demo.com"
   }
 ];
 ---
@@ -97,12 +110,14 @@ const projects = [
             </div>
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
                 {projects.map((project) => (
-                    <ProjectCard 
+                    <ProjectCard
+                        id={project.id}
                         title={project.title}
                         description={project.description}
                         tags={project.tags}
-                        image={project.image}
-                        link={project.link}
+                        images={project.images}
+                        repositoryUrl={project.repositoryUrl}
+                        siteUrl={project.siteUrl}
                     />
                 ))}
             </div>
@@ -177,5 +192,10 @@ const projects = [
                 </svg>
             </a>
         </footer>
+
+        <!-- Project Modals -->
+        {projects.map((project) => (
+            <ProjectModal id={project.id} />
+        ))}
     </main>
 </Layout>

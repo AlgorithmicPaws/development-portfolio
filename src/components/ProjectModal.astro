@@ -1,0 +1,262 @@
+---
+interface Props {
+  id: string;
+}
+
+const { id } = Astro.props;
+---
+
+<div id={`modal-${id}`} class="hidden fixed inset-0 bg-black/70 backdrop-blur-sm z-50 overflow-y-auto" data-modal>
+  <div class="min-h-screen px-4 flex items-center justify-center py-8">
+    <div class="bg-white rounded-2xl max-w-4xl w-full mx-auto shadow-2xl relative transform transition-all" data-modal-content>
+      <!-- Close Button -->
+      <button
+        class="absolute top-4 right-4 z-10 bg-white/90 hover:bg-white rounded-full p-2 shadow-lg transition-all duration-300 hover:scale-110"
+        data-close-modal
+        aria-label="Close modal"
+      >
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-gray-700" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+        </svg>
+      </button>
+
+      <!-- Image Carousel -->
+      <div class="relative rounded-t-2xl overflow-hidden bg-gray-900">
+        <div class="carousel-container relative" data-carousel-container>
+          <!-- Carousel images will be injected here -->
+          <div class="carousel-track flex transition-transform duration-500 ease-out" data-carousel-track></div>
+        </div>
+
+        <!-- Carousel Navigation -->
+        <div class="carousel-nav">
+          <button
+            class="absolute left-4 top-1/2 -translate-y-1/2 bg-white/80 hover:bg-white rounded-full p-2 shadow-lg transition-all duration-300 hover:scale-110 z-10"
+            data-carousel-prev
+            aria-label="Previous image"
+          >
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-gray-700" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+            </svg>
+          </button>
+          <button
+            class="absolute right-4 top-1/2 -translate-y-1/2 bg-white/80 hover:bg-white rounded-full p-2 shadow-lg transition-all duration-300 hover:scale-110 z-10"
+            data-carousel-next
+            aria-label="Next image"
+          >
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-gray-700" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+            </svg>
+          </button>
+        </div>
+
+        <!-- Carousel Indicators -->
+        <div class="absolute bottom-4 left-1/2 -translate-x-1/2 flex gap-2 z-10" data-carousel-indicators></div>
+      </div>
+
+      <!-- Content -->
+      <div class="p-6 md:p-8">
+        <!-- Title -->
+        <h3 class="text-2xl md:text-3xl font-bold text-gray-900 mb-4" data-modal-title></h3>
+
+        <!-- Description -->
+        <p class="text-gray-700 mb-6 text-lg" data-modal-description></p>
+
+        <!-- Tags -->
+        <div class="mb-6">
+          <h4 class="text-sm font-semibold text-gray-600 mb-2 uppercase tracking-wide">Technologies</h4>
+          <div class="flex flex-wrap gap-2" data-modal-tags></div>
+        </div>
+
+        <!-- Action Buttons -->
+        <div class="flex flex-wrap gap-4" data-modal-actions></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  // Modal functionality
+  document.addEventListener('DOMContentLoaded', () => {
+    const modals = document.querySelectorAll('[data-modal]');
+
+    modals.forEach((modal) => {
+      const closeBtn = modal.querySelector('[data-close-modal]');
+
+      // Close on button click
+      closeBtn?.addEventListener('click', () => {
+        modal.classList.add('hidden');
+        document.body.style.overflow = '';
+      });
+
+      // Close on backdrop click
+      modal.addEventListener('click', (e) => {
+        if (e.target === modal) {
+          modal.classList.add('hidden');
+          document.body.style.overflow = '';
+        }
+      });
+
+      // Close on Escape key
+      document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape' && !modal.classList.contains('hidden')) {
+          modal.classList.add('hidden');
+          document.body.style.overflow = '';
+        }
+      });
+    });
+  });
+
+  // Carousel functionality
+  class Carousel {
+    constructor(modalId) {
+      this.modal = document.getElementById(`modal-${modalId}`);
+      this.track = this.modal.querySelector('[data-carousel-track]');
+      this.prevBtn = this.modal.querySelector('[data-carousel-prev]');
+      this.nextBtn = this.modal.querySelector('[data-carousel-next]');
+      this.indicators = this.modal.querySelector('[data-carousel-indicators]');
+      this.currentIndex = 0;
+      this.images = [];
+
+      this.prevBtn?.addEventListener('click', () => this.prev());
+      this.nextBtn?.addEventListener('click', () => this.next());
+    }
+
+    setImages(images) {
+      this.images = images;
+      this.render();
+      this.updateNavigation();
+    }
+
+    render() {
+      // Clear existing content
+      this.track.innerHTML = '';
+      this.indicators.innerHTML = '';
+
+      // Add images
+      this.images.forEach((img, index) => {
+        const imgElement = document.createElement('img');
+        imgElement.src = img;
+        imgElement.alt = `Project image ${index + 1}`;
+        imgElement.className = 'w-full h-64 md:h-96 object-cover flex-shrink-0';
+        this.track.appendChild(imgElement);
+
+        // Add indicator
+        const indicator = document.createElement('button');
+        indicator.className = `w-2 h-2 rounded-full transition-all duration-300 ${
+          index === 0 ? 'bg-white w-8' : 'bg-white/50 hover:bg-white/75'
+        }`;
+        indicator.setAttribute('aria-label', `Go to image ${index + 1}`);
+        indicator.addEventListener('click', () => this.goTo(index));
+        this.indicators.appendChild(indicator);
+      });
+    }
+
+    updateNavigation() {
+      // Hide/show navigation buttons based on number of images
+      const hasMultipleImages = this.images.length > 1;
+      this.prevBtn.style.display = hasMultipleImages ? 'block' : 'none';
+      this.nextBtn.style.display = hasMultipleImages ? 'block' : 'none';
+      this.indicators.style.display = hasMultipleImages ? 'flex' : 'none';
+    }
+
+    goTo(index) {
+      this.currentIndex = index;
+      const offset = -index * 100;
+      this.track.style.transform = `translateX(${offset}%)`;
+
+      // Update indicators
+      const indicatorBtns = this.indicators.querySelectorAll('button');
+      indicatorBtns.forEach((btn, i) => {
+        if (i === index) {
+          btn.className = 'w-8 h-2 rounded-full bg-white transition-all duration-300';
+        } else {
+          btn.className = 'w-2 h-2 rounded-full bg-white/50 hover:bg-white/75 transition-all duration-300';
+        }
+      });
+    }
+
+    next() {
+      this.currentIndex = (this.currentIndex + 1) % this.images.length;
+      this.goTo(this.currentIndex);
+    }
+
+    prev() {
+      this.currentIndex = (this.currentIndex - 1 + this.images.length) % this.images.length;
+      this.goTo(this.currentIndex);
+    }
+  }
+
+  // Global function to open modal with project data
+  window.openProjectModal = (projectData) => {
+    const modal = document.getElementById(`modal-${projectData.id}`);
+    if (!modal) return;
+
+    // Initialize carousel if not already done
+    if (!modal.carousel) {
+      modal.carousel = new Carousel(projectData.id);
+    }
+
+    // Set carousel images
+    modal.carousel.setImages(projectData.images);
+
+    // Set title
+    const titleEl = modal.querySelector('[data-modal-title]');
+    if (titleEl) titleEl.textContent = projectData.title;
+
+    // Set description
+    const descEl = modal.querySelector('[data-modal-description]');
+    if (descEl) descEl.textContent = projectData.description;
+
+    // Set tags
+    const tagsEl = modal.querySelector('[data-modal-tags]');
+    if (tagsEl) {
+      tagsEl.innerHTML = projectData.tags
+        .map(tag => `<span class="bg-gray-100 text-gray-800 px-3 py-1 rounded-full text-sm font-medium hover:bg-[rgb(47,76,121)]/10 transition-colors">${tag}</span>`)
+        .join('');
+    }
+
+    // Set action buttons
+    const actionsEl = modal.querySelector('[data-modal-actions]');
+    if (actionsEl) {
+      let buttonsHTML = '';
+
+      if (projectData.repositoryUrl) {
+        buttonsHTML += `
+          <a
+            href="${projectData.repositoryUrl}"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="inline-flex items-center justify-center gap-2 bg-gray-900 text-white px-6 py-3 rounded-full hover:bg-gray-800 transition-all duration-300 transform hover:-translate-y-1 shadow-md hover:shadow-lg"
+          >
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
+            </svg>
+            View Repository
+          </a>
+        `;
+      }
+
+      if (projectData.siteUrl) {
+        buttonsHTML += `
+          <a
+            href="${projectData.siteUrl}"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="inline-flex items-center justify-center gap-2 bg-[rgb(47,76,121)] text-white px-6 py-3 rounded-full hover:bg-[rgb(47,76,121)]/80 transition-all duration-300 transform hover:-translate-y-1 shadow-md hover:shadow-lg"
+          >
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+            </svg>
+            View Live Site
+          </a>
+        `;
+      }
+
+      actionsEl.innerHTML = buttonsHTML;
+    }
+
+    // Show modal
+    modal.classList.remove('hidden');
+    document.body.style.overflow = 'hidden';
+  };
+</script>
