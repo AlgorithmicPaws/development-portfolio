@@ -1,15 +1,78 @@
-<header class="sticky top-0 z-50 flex justify-end h-18 items-center border-b-2 border-black max-w-full bg-white/90 backdrop-blur-sm">
+<header class="sticky top-0 z-50 flex justify-between items-center border-b-2 border-black max-w-full bg-white/90 backdrop-blur-sm">
     <img class="w-20 h-12 rounded-full pl-4 pr-4 hover:scale-110 transition-transform duration-300" src="/logo.svg" alt="logo" />
-    <div class="min-w-0 max-w-8xl w-full pt-4 pb-4">     
+    <div class="min-w-0 max-w-8xl w-full pt-4 pb-4">
         <div class="min-w-0 w-full bg-[rgb(200,35,55)] h-1"></div>
         <div class="min-w-0 w-full bg-[rgb(224,98,54)] h-1"></div>
         <div class="min-w-0 w-full bg-[rgb(215,171,97)] h-1"></div>
         <div class="min-w-0 w-full bg-[rgb(47,76,121)] h-1"></div>
     </div>
-    <nav class="flex font-extrabold justify-end gap-12 p-4 mr-4 md:mr-14 text-base md:text-xl">
+
+    <!-- Hamburger Button (visible on mobile) -->
+    <button id="hamburger" class="md:hidden flex flex-col gap-1.5 p-4 mr-4 z-50" aria-label="Toggle menu">
+        <span class="hamburger-line w-6 h-0.5 bg-black transition-all duration-300"></span>
+        <span class="hamburger-line w-6 h-0.5 bg-black transition-all duration-300"></span>
+        <span class="hamburger-line w-6 h-0.5 bg-black transition-all duration-300"></span>
+    </button>
+
+    <!-- Desktop Nav (hidden on mobile) -->
+    <nav class="hidden md:flex font-extrabold justify-end gap-12 p-4 mr-4 md:mr-14 text-base md:text-xl">
         <a href="#home" class="hover:text-[rgb(47,76,121)] hover:underline transition-colors">Home</a>
         <a href="#projects" class="hover:text-[rgb(47,76,121)] hover:underline transition-colors">Projects</a>
         <a href="#experience" class="hover:text-[rgb(47,76,121)] hover:underline transition-colors">Experience</a>
         <a href="#contact" class="hover:text-[rgb(47,76,121)] hover:underline transition-colors">Contact</a>
     </nav>
+
+    <!-- Mobile Menu Overlay (for click outside to close) -->
+    <div id="menu-overlay" class="md:hidden fixed inset-0  opacity-0 pointer-events-none transition-opacity duration-300"></div>
+
+    <!-- Mobile Nav (hidden by default) -->
+    <nav id="mobile-menu" class="md:hidden fixed top-[3.2rem] right-0 w-64 bg-white/95 backdrop-blur-sm border-l-2 border-b-2 border-black shadow-lg transform translate-x-full transition-transform duration-300 ease-in-out">
+        <div class="flex flex-col font-extrabold gap-6 p-8 text-xl">
+            <a href="#home" class="hover:text-[rgb(47,76,121)] hover:underline transition-colors mobile-link">Home</a>
+            <a href="#projects" class="hover:text-[rgb(47,76,121)] hover:underline transition-colors mobile-link">Projects</a>
+            <a href="#experience" class="hover:text-[rgb(47,76,121)] hover:underline transition-colors mobile-link">Experience</a>
+            <a href="#contact" class="hover:text-[rgb(47,76,121)] hover:underline transition-colors mobile-link">Contact</a>
+        </div>
+    </nav>
 </header>
+
+<script>
+    const hamburger = document.getElementById('hamburger');
+    const mobileMenu = document.getElementById('mobile-menu');
+    const menuOverlay = document.getElementById('menu-overlay');
+    const mobileLinks = document.querySelectorAll('.mobile-link');
+    const hamburgerLines = document.querySelectorAll('.hamburger-line');
+
+    function closeMenu() {
+        mobileMenu?.classList.add('translate-x-full');
+        menuOverlay?.classList.add('opacity-0', 'pointer-events-none');
+        hamburgerLines[0]?.classList.remove('rotate-45', 'translate-y-2');
+        hamburgerLines[1]?.classList.remove('opacity-0');
+        hamburgerLines[2]?.classList.remove('-rotate-45', '-translate-y-2');
+    }
+
+    function openMenu() {
+        mobileMenu?.classList.remove('translate-x-full');
+        menuOverlay?.classList.remove('opacity-0', 'pointer-events-none');
+        hamburgerLines[0]?.classList.add('rotate-45', 'translate-y-2');
+        hamburgerLines[1]?.classList.add('opacity-0');
+        hamburgerLines[2]?.classList.add('-rotate-45', '-translate-y-2');
+    }
+
+    hamburger?.addEventListener('click', () => {
+        // Toggle mobile menu
+        if (mobileMenu?.classList.contains('translate-x-full')) {
+            openMenu();
+        } else {
+            closeMenu();
+        }
+    });
+
+    // Close menu when clicking outside
+    menuOverlay?.addEventListener('click', closeMenu);
+
+    // Close menu when clicking on a link
+    mobileLinks.forEach(link => {
+        link.addEventListener('click', closeMenu);
+    });
+</script>
