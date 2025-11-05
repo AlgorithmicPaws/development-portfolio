@@ -8,53 +8,34 @@ import ContactForm from '../components/ContactForm.astro';
 
 const projects = [
   {
-    title: "E-commerce Platform",
-    description: "A full-featured online store with payment processing and inventory management.",
-    tags: ["React", "Node.js", "MongoDB", "Stripe"],
-    image: "/projects/ecommerce.jpg",
-    link: "https://github.com/username/ecommerce-project"
+    title: "VIP SCM Marketplace",
+    description: "Marketplace for construction and renovation materials with 10 concurrent users and 1,000+ monthly visits. Scalable solution expanding the company's online presence and client portfolio.",
+    tags: ["React", "FastAPI", "PostgreSQL"],
+    image: "/projects/scmvip.png",
+    link: "https://github.com/username/vip-scm"
   },
   {
-    title: "Portfolio Website",
-    description: "Modern portfolio website built with Astro and Tailwind CSS.",
-    tags: ["Astro", "Tailwind CSS", "JavaScript"],
-    image: "/projects/portfolio.jpg",
-    link: "https://github.com/username/portfolio"
-  },
-  {
-    title: "Weather App",
-    description: "Real-time weather application with location detection and forecast.",
-    tags: ["React", "Weather API", "Geolocation"],
-    image: "/projects/weather.jpg",
-    link: "https://github.com/username/weather-app"
-  },
-  {
-    title: "Task Management App",
-    description: "Collaborative task management system with real-time updates.",
-    tags: ["Vue.js", "Firebase", "Tailwind CSS"],
-    image: "/projects/tasks.jpg",
-    link: "https://github.com/username/task-manager"
-  },
-  {
-    title: "Blog Platform",
-    description: "Content management system for writers and content creators.",
-    tags: ["Next.js", "GraphQL", "PostgreSQL"],
-    image: "/projects/blog.jpg",
-    link: "https://github.com/username/blog-platform"
-  },
-  {
-    title: "Social Media Dashboard",
-    description: "Analytics dashboard for monitoring social media engagement.",
-    tags: ["React", "D3.js", "Social APIs"],
-    image: "/projects/dashboard.jpg",
-    link: "https://github.com/username/social-dashboard"
+    title: "Focus Timers",
+    description: "Productivity web application featuring Pomodoro, Time Bag, and Time Blocking techniques. Reached 50 concurrent users and 500+ monthly visits, boosting productivity in the academic community.",
+    tags: ["React", "FastAPI", "MySQL"],
+    image: "/projects/focus-timers.png",
+    link: "https://github.com/AlgorithmicPaws/focus-timers"
   }
+  ,  
+  {
+    title: "Rubber Duck 2.0",
+    description: "Physical intelligent assistant using AI to help programmers solve errors through guided questioning, based on the rubber duck debugging technique. Improved debugging efficiency for the university programming community.",
+    tags: ["AI", "QLoRA", "FastAPI", "3D Modeling"],
+    image: "/projects/duck.png",
+    link: "https://github.com/username/rubber-duck"
+  },
+  
 ];
 ---
 <Layout>
     <main>
         <!-- Hero Section -->
-        <section id="home" class="p-8 md:p-20 flex flex-col md:flex-row justify-center items-center bg-[url(/bakground-white.png)] bg-cover bg-center w-full min-h-[calc(100vh-72px)]">
+        <section id="home" class="p-8 md:p-20 flex flex-col md:flex-row justify-center items-center bg-[url(/bakground-white.png)] bg-cover bg-center w-full min-h-[75vh]">
             <div class="md:pr-10 max-w-full md:max-w-[50%] mb-8 md:mb-0">
                 <Badge>Available for work</Badge>
                 <h1 class="text-3xl md:text-4xl lg:text-5xl font-bold mt-4 mb-8 text-transparent bg-clip-text bg-gradient-to-r from-[rgb(47,76,121)] to-[rgb(200,35,55)]">Hey, I'm Sergio Florez</h1>
@@ -64,7 +45,7 @@ const projects = [
                     <span class="text-[rgb(47,76,121)] font-semibold">Full-stack developer</span> 
                     with +2 years of experience building useful and stylish web apps. From Bogota, Colombia 🇨🇴.
                 </h2>
-                <div class="flex gap-20 mt-6">
+                <div class="flex justify-start mt-8 pr-10">
                                     <div class="flex justify-center gap-3 ">
                     <a href="https://github.com/Algorithmicpaws" target="_blank" rel="noopener noreferrer" class="bg-[rgb(47,76,121)] text-white px-5 py-2 rounded-full hover:bg-[rgb(47,76,121)]/80 transition-all duration-300 transform hover:-translate-y-1 shadow-md hover:shadow-lg">
                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-github">
@@ -79,13 +60,7 @@ const projects = [
                         </svg>
                     </a>
                 </div>
-                    <a href="#contact" class="inline-flex items-center justify-center gap-2 bg-[rgb(47,76,121)] text-white px-5 py-2 rounded-full hover:bg-[rgb(47,76,121)]/80 transition-all duration-300 transform hover:-translate-y-1 shadow-md hover:shadow-lg">
-                        Contact Me
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
-                            <path fill-rule="evenodd" d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z" clip-rule="evenodd" />
-                        </svg>
-                    </a>
-                    
+
 
                 </div>
             </div>
@@ -132,7 +107,7 @@ const projects = [
         <!-- Experience Section -->
         <section  id="experience" class="flex flex-col p-20 bg-gray-100">
             <div class="flex gap-3 items-center mb-12">
-                <img class="w-12 h-12 " src="/portfolio-icon.svg" alt="Experience" />
+                <img class="w-12 h-12 " src="/suitcase.svg" alt="Experience" />
                 <h2 class="text-2xl font-bold">Professional Experience</h2>
             </div>
             <ExperienceTimeline />
@@ -176,7 +151,7 @@ const projects = [
                     </svg>
                 </a>
             </div>
-            <p class="text-white/80">.</p>
+            <p class="text-white/80">Made by Algorthmic Paws 🐾</p>
             
             <!-- Back to top button -->
             <a href="#home" class="fixed bottom-6 right-6 bg-[rgb(47,76,121)] p-3 rounded-full shadow-lg hover:bg-[rgb(47,76,121)]/80 transition-all duration-300 hover:-translate-y-1 group">
