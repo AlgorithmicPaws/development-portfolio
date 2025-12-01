@@ -1,5 +1,6 @@
-<header class="sticky top-0 z-50 flex justify-between items-center border-b-2 border-black max-w-full bg-white/90 backdrop-blur-sm">
+<header id="main-header" class="sticky top-0 z-50 flex justify-between items-center border-b-2 border-black max-w-full bg-white/90 backdrop-blur-sm shadow-sm transition-shadow duration-300">
     <img class="w-20 h-12 rounded-full pl-4 pr-4 hover:scale-110 transition-transform duration-300" src="/logo.svg" alt="logo" />
+    
     <div class="min-w-0 max-w-8xl w-full pt-4 pb-4">
         <div class="min-w-0 w-full bg-[rgb(200,35,55)] h-1"></div>
         <div class="min-w-0 w-full bg-[rgb(224,98,54)] h-1"></div>
@@ -7,14 +8,12 @@
         <div class="min-w-0 w-full bg-[rgb(47,76,121)] h-1"></div>
     </div>
 
-    <!-- Hamburger Button (visible on mobile) -->
     <button id="hamburger" class="md:hidden flex flex-col gap-1.5 p-4 mr-4 z-50" aria-label="Toggle menu">
         <span class="hamburger-line w-6 h-0.5 bg-black transition-all duration-300"></span>
         <span class="hamburger-line w-6 h-0.5 bg-black transition-all duration-300"></span>
         <span class="hamburger-line w-6 h-0.5 bg-black transition-all duration-300"></span>
     </button>
 
-    <!-- Desktop Nav (hidden on mobile) -->
     <nav class="hidden md:flex font-extrabold justify-end gap-12 p-4 mr-4 md:mr-14 text-base md:text-xl">
         <a href="#home" class="hover:text-[rgb(47,76,121)] hover:underline transition-colors">Home</a>
         <a href="#projects" class="hover:text-[rgb(47,76,121)] hover:underline transition-colors">Projects</a>
@@ -22,11 +21,9 @@
         <a href="#contact" class="hover:text-[rgb(47,76,121)] hover:underline transition-colors">Contact</a>
     </nav>
 
-    <!-- Mobile Menu Overlay (for click outside to close) -->
-    <div id="menu-overlay" class="md:hidden fixed inset-0  opacity-0 pointer-events-none transition-opacity duration-300"></div>
+    <div id="menu-overlay" class="fixed inset-0 z-40 hidden"></div>
 
-    <!-- Mobile Nav (hidden by default) -->
-    <nav id="mobile-menu" class="md:hidden fixed top-[3.2rem] right-0 w-64 bg-white/95 backdrop-blur-sm border-l-2 border-b-2 border-black shadow-lg transform translate-x-full transition-transform duration-300 ease-in-out">
+    <nav id="mobile-menu" class="fixed top-[3.2rem] -right-64 w-64 h-[calc(100vh-3.2rem)] bg-white/95 backdrop-blur-sm border-l-2 border-b-2 border-black shadow-lg z-50 hidden overflow-hidden">
         <div class="flex flex-col font-extrabold gap-6 p-8 text-xl">
             <a href="#home" class="hover:text-[rgb(47,76,121)] hover:underline transition-colors mobile-link">Home</a>
             <a href="#projects" class="hover:text-[rgb(47,76,121)] hover:underline transition-colors mobile-link">Projects</a>
@@ -36,42 +33,150 @@
     </nav>
 </header>
 
+<style>
+    @media (min-width: 768px) {
+        #mobile-menu,
+        #menu-overlay {
+            display: none;
+        }
+    }
+
+    body.menu-open {
+        overflow: hidden;
+    }
+
+    #main-header.header-menu-open {
+        box-shadow: none;
+    }
+
+    #mobile-menu.menu-open {
+        display: flex;
+        animation: slideIn 0.3s cubic-bezier(0.4, 0.0, 0.2, 1) forwards;
+    }
+
+    #mobile-menu.menu-closing {
+        animation: slideOut 0.3s cubic-bezier(0.4, 0.0, 0.2, 1) forwards;
+    }
+
+    #menu-overlay.overlay-open {
+        display: block;
+        animation: fadeIn 0.3s cubic-bezier(0.4, 0.0, 0.2, 1) forwards;
+    }
+
+    #menu-overlay.overlay-closing {
+        animation: fadeOut 0.3s cubic-bezier(0.4, 0.0, 0.2, 1) forwards;
+    }
+
+    @keyframes slideIn {
+        0% {
+            right: -16rem;
+            opacity: 0;
+        }
+        100% {
+            right: 0;
+            opacity: 1;
+        }
+    }
+
+    @keyframes slideOut {
+        0% {
+            right: 0;
+            opacity: 1;
+        }
+        100% {
+            right: -16rem;
+            opacity: 0;
+        }
+    }
+
+    @keyframes fadeIn {
+        0% {
+            opacity: 0;
+        }
+        100% {
+            opacity: 1;
+        }
+    }
+
+    @keyframes fadeOut {
+        0% {
+            opacity: 1;
+        }
+        100% {
+            opacity: 0;
+        }
+    }
+</style>
+
 <script>
     const hamburger = document.getElementById('hamburger');
     const mobileMenu = document.getElementById('mobile-menu');
     const menuOverlay = document.getElementById('menu-overlay');
     const mobileLinks = document.querySelectorAll('.mobile-link');
     const hamburgerLines = document.querySelectorAll('.hamburger-line');
+    const mainHeader = document.getElementById('main-header');
+    const body = document.body;
 
-    function closeMenu() {
-        mobileMenu?.classList.add('translate-x-full');
-        menuOverlay?.classList.add('opacity-0', 'pointer-events-none');
-        hamburgerLines[0]?.classList.remove('rotate-45', 'translate-y-2');
-        hamburgerLines[1]?.classList.remove('opacity-0');
-        hamburgerLines[2]?.classList.remove('-rotate-45', '-translate-y-2');
-    }
+    let isOpen = false;
 
     function openMenu() {
-        mobileMenu?.classList.remove('translate-x-full');
-        menuOverlay?.classList.remove('opacity-0', 'pointer-events-none');
+        if (!mobileMenu || !menuOverlay) return;
+        
+        isOpen = true;
+        body.classList.add('menu-open');
+        mainHeader?.classList.add('header-menu-open');
+        
+        mobileMenu.classList.remove('hidden', 'menu-closing');
+        mobileMenu.classList.add('menu-open');
+        menuOverlay.classList.remove('hidden', 'overlay-closing');
+        menuOverlay.classList.add('overlay-open');
+        
         hamburgerLines[0]?.classList.add('rotate-45', 'translate-y-2');
         hamburgerLines[1]?.classList.add('opacity-0');
         hamburgerLines[2]?.classList.add('-rotate-45', '-translate-y-2');
     }
 
-    hamburger?.addEventListener('click', () => {
-        // Toggle mobile menu
-        if (mobileMenu?.classList.contains('translate-x-full')) {
-            openMenu();
-        } else {
-            closeMenu();
-        }
-    });
+    function closeMenu() {
+        if (!mobileMenu || !menuOverlay) return;
+        
+        isOpen = false;
+        body.classList.remove('menu-open');
+        mainHeader?.classList.remove('header-menu-open');
+        
+        mobileMenu.classList.remove('menu-open');
+        mobileMenu.classList.add('menu-closing');
+        menuOverlay.classList.remove('overlay-open');
+        menuOverlay.classList.add('overlay-closing');
+        
+        hamburgerLines[0]?.classList.remove('rotate-45', 'translate-y-2');
+        hamburgerLines[1]?.classList.remove('opacity-0');
+        hamburgerLines[2]?.classList.remove('-rotate-45', '-translate-y-2');
 
-    // Close menu when clicking outside
-    menuOverlay?.addEventListener('click', closeMenu);
+        setTimeout(() => {
+            if (mobileMenu && menuOverlay) {
+                mobileMenu.classList.add('hidden');
+                mobileMenu.classList.remove('menu-closing');
+                menuOverlay.classList.add('hidden');
+                menuOverlay.classList.remove('overlay-closing');
+            }
+        }, 300);
+    }
 
-    // Close menu when clicking on a link
+    if (hamburger) {
+        hamburger.addEventListener('click', (e) => {
+            e.stopPropagation();
+            if (isOpen) {
+                closeMenu();
+            } else {
+                openMenu();
+            }
+        });
+    }
+
+    if (menuOverlay) {
+        menuOverlay.addEventListener('click', closeMenu);
+    }
+
     mobileLinks.forEach(link => {
         link.addEventListener('click', closeMenu);
     });
