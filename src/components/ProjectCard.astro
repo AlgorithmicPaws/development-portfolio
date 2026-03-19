@@ -3,32 +3,43 @@ interface Props {
   title: string;
   description: string;
   descriptionEs?: string;
+  longDescription?: string;
+  longDescriptionEs?: string;
   tags: string[];
   images: string[];
   githubLink: string;
   liveLink?: string;
 }
 
-const { title, description, descriptionEs, tags, images, githubLink, liveLink } = Astro.props;
+const { title, description, descriptionEs, longDescription, longDescriptionEs, tags, images, githubLink, liveLink } = Astro.props;
 
-const projectData = JSON.stringify({ title, description, descriptionEs: descriptionEs ?? '', tags, images, githubLink, liveLink: liveLink ?? '' });
+// The modal receives the long description when available; the card shows the short one
+const projectData = JSON.stringify({
+  title,
+  description: longDescription ?? description,
+  descriptionEs: longDescriptionEs ?? descriptionEs ?? '',
+  tags,
+  images,
+  githubLink,
+  liveLink: liveLink ?? '',
+});
 ---
 
-<article class="bg-white rounded-xl overflow-hidden shadow-lg hover:shadow-xl transition-all duration-300 flex flex-col h-full group transform hover:-translate-y-2">
-  <div class="relative">
-    <img src={images[0]} alt={title} class="w-full h-48 object-cover" />
+<article
+  class="open-modal-btn bg-white rounded-xl overflow-hidden shadow-lg hover:shadow-xl transition-all duration-300 flex flex-col h-full group transform hover:-translate-y-2 cursor-pointer"
+  data-project={projectData}
+>
+  <div class="relative pointer-events-none">
+    <img src={images[0]} alt={title} class="w-full h-64 object-cover" />
     <div class="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end">
-      <button
-        class="open-modal-btn w-full text-center bg-brand-navy text-white py-2 hover:bg-brand-navy/80 transition-colors cursor-pointer"
-        data-project={projectData}
-      >
-        <span class="inline-flex items-center justify-center gap-1 pointer-events-none">
+      <div class="w-full text-center bg-brand-navy text-white py-2">
+        <span class="inline-flex items-center justify-center gap-1">
           <span data-i18n="projects.viewDetails">View Details</span>
           <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3" />
           </svg>
         </span>
-      </button>
+      </div>
     </div>
   </div>
   <div class="p-4 flex-grow flex flex-col justify-between">

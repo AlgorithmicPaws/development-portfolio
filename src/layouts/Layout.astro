@@ -34,65 +34,7 @@ import '@fontsource-variable/onest'
 </html>
 
 <script>
-	const translations = {
-		en: {
-			nav: { home: 'Home', projects: 'Projects', experience: 'Experience', contact: 'Contact' },
-			hero: {
-				badge: 'Available for work',
-				role1: 'Computer scientist',
-				desc1: ' passionate about web development. ',
-				role2: 'Full-stack developer',
-				desc2: ' with +2 years of experience building useful and stylish web apps. From Bogota, Colombia 🇨🇴.',
-			},
-			projects: { title: 'My Projects', viewProject: 'View Project', viewDetails: 'View Details', github: 'GitHub', liveProject: 'Live Project' },
-			experience: {
-				title: 'Professional Experience',
-				viewAll: 'View all experience',
-				badge: 'My Professional Journey',
-				pageTitle: 'Professional Experience',
-				backHome: 'Back to Home',
-			},
-			contact: {
-				badge: 'Get in Touch',
-				title: 'Contact Me',
-				description: "Have a project in mind or want to discuss potential opportunities? Send me a message and I'll get back to you as soon as possible.",
-			},
-			footer: { credit: 'Made by Algorthmic Paws 🐾' },
-		},
-		es: {
-			nav: { home: 'Inicio', projects: 'Proyectos', experience: 'Experiencia', contact: 'Contacto' },
-			hero: {
-				badge: 'Disponible para trabajar',
-				role1: 'Científico de computación',
-				desc1: ' apasionado por el desarrollo web. ',
-				role2: 'Desarrollador Full-stack',
-				desc2: ' con +2 años de experiencia construyendo aplicaciones útiles y elegantes. De Bogotá, Colombia 🇨🇴.',
-			},
-			projects: { title: 'Mis Proyectos', viewProject: 'Ver Proyecto', viewDetails: 'Ver Detalles', github: 'GitHub', liveProject: 'Proyecto en Vivo' },
-			experience: {
-				title: 'Experiencia Profesional',
-				viewAll: 'Ver toda mi experiencia',
-				badge: 'Mi Trayectoria Profesional',
-				pageTitle: 'Experiencia Profesional',
-				backHome: 'Volver al Inicio',
-			},
-			contact: {
-				badge: 'Contáctame',
-				title: 'Contáctame',
-				description: '¿Tienes un proyecto en mente o quieres discutir oportunidades potenciales? Envíame un mensaje y te responderé lo antes posible.',
-			},
-			footer: { credit: 'Hecho por Algorthmic Paws 🐾' },
-		},
-	}
-
-	type Lang = 'en' | 'es'
-
-	function getTranslation(lang: Lang, key: string): string | undefined {
-		const keys = key.split('.')
-		let val: any = translations[lang]
-		for (const k of keys) val = val?.[k]
-		return typeof val === 'string' ? val : undefined
-	}
+	import { translations, getTranslation, type Lang } from '../i18n/translations'
 
 	function applyLang(lang: Lang) {
 		localStorage.setItem('lang', lang)
@@ -111,20 +53,24 @@ import '@fontsource-variable/onest'
 			el.style.display = el.getAttribute('data-lang-content') === lang ? '' : 'none'
 		})
 
-		document.querySelectorAll<HTMLElement>('.lang-toggle').forEach((btn) => {
-			btn.textContent = lang === 'en' ? '🌐 ES' : '🌐 EN'
+		// Update segmented language buttons
+		document.querySelectorAll<HTMLElement>('[data-lang-btn]').forEach((btn) => {
+			const isActive = btn.getAttribute('data-lang-btn') === lang
+			btn.classList.toggle('bg-brand-navy', isActive)
+			btn.classList.toggle('text-white', isActive)
+			btn.classList.toggle('text-brand-navy', !isActive)
+			btn.setAttribute('aria-pressed', String(isActive))
 		})
 	}
 
-	// Lang toggle buttons (desktop + mobile)
-	document.querySelectorAll('.lang-toggle').forEach((btn) => {
+	// Each button sets its own language directly — no toggle logic needed
+	document.querySelectorAll<HTMLElement>('[data-lang-btn]').forEach((btn) => {
 		btn.addEventListener('click', () => {
-			const current = (localStorage.getItem('lang') || 'en') as Lang
-			applyLang(current === 'en' ? 'es' : 'en')
+			applyLang(btn.getAttribute('data-lang-btn') as Lang)
 		})
 	})
 
-	// Apply stored language on load (updates text content)
+	// Apply stored language on load
 	const savedLang = (localStorage.getItem('lang') || 'en') as Lang
 	applyLang(savedLang)
 </script>

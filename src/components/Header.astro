@@ -19,7 +19,15 @@
         <a href="#projects" class="hover:text-brand-navy hover:underline transition-colors" data-i18n="nav.projects">Projects</a>
         <a href="#experience" class="hover:text-brand-navy hover:underline transition-colors" data-i18n="nav.experience">Experience</a>
         <a href="#contact" class="hover:text-brand-navy hover:underline transition-colors" data-i18n="nav.contact">Contact</a>
-        <button class="lang-toggle text-sm font-bold border-2 border-brand-navy text-brand-navy px-3 py-1 rounded-full hover:bg-brand-navy hover:text-white transition-colors" aria-label="Toggle language">🌐 ES</button>
+        <div class="flex items-center border-2 border-brand-navy rounded-full p-0.5 gap-0.5" role="group" aria-label="Language selector">
+            <svg class="w-4 h-4 text-brand-navy mx-1 flex-shrink-0" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <circle cx="12" cy="12" r="10"/>
+              <line x1="2" y1="12" x2="22" y2="12"/>
+              <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/>
+            </svg>
+            <button data-lang-btn="en" class="text-xs font-bold px-2.5 py-0.5 rounded-full transition-colors" aria-pressed="true">EN</button>
+            <button data-lang-btn="es" class="text-xs font-bold px-2.5 py-0.5 rounded-full transition-colors text-brand-navy" aria-pressed="false">ES</button>
+        </div>
     </nav>
 
     <div id="menu-overlay" class="fixed inset-0 z-40 hidden"></div>
@@ -30,7 +38,15 @@
             <a href="#projects" class="hover:text-brand-navy hover:underline transition-colors mobile-link" data-i18n="nav.projects">Projects</a>
             <a href="#experience" class="hover:text-brand-navy hover:underline transition-colors mobile-link" data-i18n="nav.experience">Experience</a>
             <a href="#contact" class="hover:text-brand-navy hover:underline transition-colors mobile-link" data-i18n="nav.contact">Contact</a>
-            <button class="lang-toggle self-start text-sm font-bold border-2 border-brand-navy text-brand-navy px-3 py-1 rounded-full hover:bg-brand-navy hover:text-white transition-colors" aria-label="Toggle language">🌐 ES</button>
+            <div class="self-start flex items-center border-2 border-brand-navy rounded-full p-0.5 gap-0.5" role="group" aria-label="Language selector">
+                <svg class="w-4 h-4 text-brand-navy mx-1 flex-shrink-0" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                  <circle cx="12" cy="12" r="10"/>
+                  <line x1="2" y1="12" x2="22" y2="12"/>
+                  <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/>
+                </svg>
+                <button data-lang-btn="en" class="text-xs font-bold px-2.5 py-0.5 rounded-full transition-colors" aria-pressed="true">EN</button>
+                <button data-lang-btn="es" class="text-xs font-bold px-2.5 py-0.5 rounded-full transition-colors text-brand-navy" aria-pressed="false">ES</button>
+            </div>
         </div>
     </nav>
 </header>

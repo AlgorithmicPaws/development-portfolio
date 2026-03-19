@@ -4,15 +4,26 @@
 <!-- Project Modal -->
 <div
   id="projectModal"
-  class="fixed inset-0 z-50 hidden items-center justify-center p-4 bg-black/70 backdrop-blur-sm"
+  class="fixed inset-0 z-50 hidden items-center justify-center p-4 md:p-6 bg-black/70 backdrop-blur-sm"
   role="dialog"
   aria-modal="true"
   aria-labelledby="modalTitle"
 >
-  <div class="bg-white rounded-2xl max-w-2xl w-full max-h-[90vh] overflow-y-auto shadow-2xl flex flex-col">
+  <div class="modal-panel relative bg-white rounded-2xl w-full max-w-7xl shadow-2xl overflow-hidden grid grid-cols-1 md:grid-cols-[55%_45%] max-h-[92vh]">
 
-    <!-- Carousel -->
-    <div class="relative bg-gray-900 rounded-t-2xl overflow-hidden" style="height: 280px;">
+    <!-- Close button — top-right of the modal -->
+    <button
+      id="modalClose"
+      class="absolute top-3 right-3 z-20 bg-brand-red hover:bg-brand-red/80 text-white rounded-full w-9 h-9 flex items-center justify-center transition-all shadow-md hover:shadow-lg"
+      aria-label="Close modal"
+    >
+      <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-brand-gold" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M6 18L18 6M6 6l12 12" />
+      </svg>
+    </button>
+
+    <!-- LEFT (desktop) / TOP (mobile): Carousel -->
+    <div class="relative bg-gray-900 overflow-hidden h-64 md:h-auto md:min-h-[480px] md:col-start-1 md:row-start-1">
       <div id="carouselTrack" class="flex h-full transition-transform duration-300 ease-in-out"></div>
 
       <!-- Prev / Next -->
@@ -37,32 +48,24 @@
 
       <!-- Dots -->
       <div id="carouselDots" class="absolute bottom-3 left-1/2 -translate-x-1/2 flex gap-2 hidden"></div>
-
-      <!-- Close button -->
-      <button
-        id="modalClose"
-        class="absolute top-3 right-3 bg-black/50 hover:bg-black/70 text-white rounded-full w-9 h-9 flex items-center justify-center transition-colors"
-        aria-label="Close modal"
-      >
-        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
-        </svg>
-      </button>
     </div>
 
-    <!-- Content -->
-    <div class="p-6 flex flex-col gap-4">
-      <h3 id="modalTitle" class="text-2xl font-bold text-brand-navy"></h3>
+    <!-- RIGHT (desktop) / BOTTOM (mobile): Content -->
+    <div class="flex flex-col gap-5 p-8 overflow-y-auto md:col-start-2 md:row-start-1">
+
+      <h3 id="modalTitle" class="text-2xl md:text-3xl font-bold text-brand-navy leading-tight pt-2"></h3>
 
       <!-- Description (bilingual) -->
-      <p id="modalDescEn" data-lang-content="en" class="text-gray-700 leading-relaxed"></p>
-      <p id="modalDescEs" data-lang-content="es" class="text-gray-700 leading-relaxed"></p>
+      <div>
+        <p id="modalDescEn" data-lang-content="en" class="text-gray-600 leading-relaxed"></p>
+        <p id="modalDescEs" data-lang-content="es" class="text-gray-600 leading-relaxed"></p>
+      </div>
 
       <!-- Tags -->
       <div id="modalTags" class="flex flex-wrap gap-2"></div>
 
       <!-- Links -->
-      <div id="modalLinks" class="flex flex-wrap gap-3 pt-2">
+      <div id="modalLinks" class="flex flex-wrap gap-3 mt-auto pt-5 border-t border-gray-100">
         <a
           id="modalGithub"
           href="#"
@@ -88,12 +91,25 @@
           <span data-i18n="projects.liveProject">Live Project</span>
         </a>
       </div>
-    </div>
 
+    </div>
   </div>
 </div>
 
+<style>
+  .modal-panel {
+    animation: modalIn 0.28s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  }
+
+  @keyframes modalIn {
+    from { opacity: 0; transform: scale(0.96) translateY(10px); }
+    to   { opacity: 1; transform: scale(1)    translateY(0);     }
+  }
+</style>
+
 <script>
+  import { getTagStyle } from '../data/techColors'
+
   interface ProjectData {
     title: string;
     description: string;
@@ -104,11 +120,11 @@
     liveLink: string;
   }
 
-  const modal = document.getElementById('projectModal')!;
-  const track = document.getElementById('carouselTrack')!;
-  const dots = document.getElementById('carouselDots')!;
-  const prevBtn = document.getElementById('carouselPrev')!;
-  const nextBtn = document.getElementById('carouselNext')!;
+  const modal    = document.getElementById('projectModal')!;
+  const track    = document.getElementById('carouselTrack')!;
+  const dots     = document.getElementById('carouselDots')!;
+  const prevBtn  = document.getElementById('carouselPrev')!;
+  const nextBtn  = document.getElementById('carouselNext')!;
   const closeBtn = document.getElementById('modalClose')!;
 
   let currentIndex = 0;
@@ -117,33 +133,28 @@
   function updateSlide() {
     (track as HTMLElement).style.transform = `translateX(-${currentIndex * 100}%)`;
     dots.querySelectorAll<HTMLButtonElement>('.dot').forEach((dot, i) => {
-      dot.classList.toggle('bg-white', i === currentIndex);
+      dot.classList.toggle('bg-white',    i === currentIndex);
       dot.classList.toggle('bg-white/40', i !== currentIndex);
     });
   }
 
   function openModal(data: ProjectData) {
-    // Title
     document.getElementById('modalTitle')!.textContent = data.title;
 
-    // Description
     document.getElementById('modalDescEn')!.textContent = data.description;
     document.getElementById('modalDescEs')!.textContent = data.descriptionEs;
 
-    // Re-apply current lang to new content
     const lang = document.documentElement.getAttribute('data-lang') || 'en';
-    const descEn = document.getElementById('modalDescEn')!;
-    const descEs = document.getElementById('modalDescEs')!;
-    descEn.style.display = lang === 'es' ? 'none' : '';
-    descEs.style.display = lang === 'es' ? '' : 'none';
+    document.getElementById('modalDescEn')!.style.display = lang === 'es' ? 'none' : '';
+    document.getElementById('modalDescEs')!.style.display = lang === 'es' ? '' : 'none';
 
-    // Tags
+    // Tags — official tech brand colors via techColors.ts
     const tagsEl = document.getElementById('modalTags')!;
-    tagsEl.innerHTML = data.tags.map(tag =>
-      `<span class="bg-gray-100 text-gray-800 px-2 py-1 rounded-full text-xs hover:bg-brand-navy/10 transition-colors">${tag}</span>`
-    ).join('');
+    tagsEl.innerHTML = data.tags.map((tag, i) => {
+      const s = getTagStyle(tag, i);
+      return `<span style="background:${s.background};color:${s.color};border:1px solid ${s.border}" class="px-3 py-1 rounded-full text-xs font-semibold">${tag}</span>`;
+    }).join('');
 
-    // Links
     const githubEl = document.getElementById('modalGithub') as HTMLAnchorElement;
     githubEl.href = data.githubLink;
 
@@ -155,11 +166,10 @@
       liveEl.classList.add('hidden');
     }
 
-    // Carousel
     images = data.images;
     currentIndex = 0;
-    track.innerHTML = images.map(src =>
-      `<img src="${src}" alt="" class="w-full h-full object-cover flex-shrink-0" style="min-width:100%" />`
+    track.innerHTML = images.map((src, i) =>
+      `<img src="${src}" alt="${data.title} - image ${i + 1} of ${images.length}" class="w-full h-full object-cover flex-shrink-0" style="min-width:100%" />`
     ).join('');
 
     const multipleImages = images.length > 1;
@@ -174,8 +184,6 @@
     }
 
     updateSlide();
-
-    // Show modal
     modal.classList.remove('hidden');
     modal.classList.add('flex');
     document.body.style.overflow = 'hidden';
@@ -187,7 +195,6 @@
     document.body.style.overflow = '';
   }
 
-  // Event delegation: open modal on card button click
   document.addEventListener('click', (e) => {
     const btn = (e.target as Element).closest('.open-modal-btn');
     if (btn) {
@@ -196,7 +203,6 @@
     }
   });
 
-  // Carousel controls
   prevBtn.addEventListener('click', () => {
     currentIndex = (currentIndex - 1 + images.length) % images.length;
     updateSlide();
@@ -215,18 +221,15 @@
     }
   });
 
-  // Close on button or backdrop click
   closeBtn.addEventListener('click', closeModal);
   modal.addEventListener('click', (e) => {
     if (e.target === modal) closeModal();
   });
 
-  // Close on Escape
   document.addEventListener('keydown', (e) => {
     if (e.key === 'Escape') closeModal();
   });
 
-  // Re-apply lang to modal description when language toggles
   document.addEventListener('langChanged', () => {
     const lang = document.documentElement.getAttribute('data-lang') || 'en';
     const descEn = document.getElementById('modalDescEn')!;
