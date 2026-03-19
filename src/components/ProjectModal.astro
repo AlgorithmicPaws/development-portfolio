@@ -1,0 +1,239 @@
+---
+---
+
+<!-- Project Modal -->
+<div
+  id="projectModal"
+  class="fixed inset-0 z-50 hidden items-center justify-center p-4 bg-black/70 backdrop-blur-sm"
+  role="dialog"
+  aria-modal="true"
+  aria-labelledby="modalTitle"
+>
+  <div class="bg-white rounded-2xl max-w-2xl w-full max-h-[90vh] overflow-y-auto shadow-2xl flex flex-col">
+
+    <!-- Carousel -->
+    <div class="relative bg-gray-900 rounded-t-2xl overflow-hidden" style="height: 280px;">
+      <div id="carouselTrack" class="flex h-full transition-transform duration-300 ease-in-out"></div>
+
+      <!-- Prev / Next -->
+      <button
+        id="carouselPrev"
+        class="absolute left-3 top-1/2 -translate-y-1/2 bg-black/50 hover:bg-black/70 text-white rounded-full w-9 h-9 flex items-center justify-center transition-colors hidden"
+        aria-label="Previous image"
+      >
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+        </svg>
+      </button>
+      <button
+        id="carouselNext"
+        class="absolute right-3 top-1/2 -translate-y-1/2 bg-black/50 hover:bg-black/70 text-white rounded-full w-9 h-9 flex items-center justify-center transition-colors hidden"
+        aria-label="Next image"
+      >
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+        </svg>
+      </button>
+
+      <!-- Dots -->
+      <div id="carouselDots" class="absolute bottom-3 left-1/2 -translate-x-1/2 flex gap-2 hidden"></div>
+
+      <!-- Close button -->
+      <button
+        id="modalClose"
+        class="absolute top-3 right-3 bg-black/50 hover:bg-black/70 text-white rounded-full w-9 h-9 flex items-center justify-center transition-colors"
+        aria-label="Close modal"
+      >
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+        </svg>
+      </button>
+    </div>
+
+    <!-- Content -->
+    <div class="p-6 flex flex-col gap-4">
+      <h3 id="modalTitle" class="text-2xl font-bold text-brand-navy"></h3>
+
+      <!-- Description (bilingual) -->
+      <p id="modalDescEn" data-lang-content="en" class="text-gray-700 leading-relaxed"></p>
+      <p id="modalDescEs" data-lang-content="es" class="text-gray-700 leading-relaxed"></p>
+
+      <!-- Tags -->
+      <div id="modalTags" class="flex flex-wrap gap-2"></div>
+
+      <!-- Links -->
+      <div id="modalLinks" class="flex flex-wrap gap-3 pt-2">
+        <a
+          id="modalGithub"
+          href="#"
+          target="_blank"
+          rel="noopener noreferrer"
+          class="inline-flex items-center gap-2 px-5 py-2 bg-brand-navy text-white rounded-full hover:bg-brand-navy/80 transition-all duration-300 shadow-md hover:shadow-lg hover:-translate-y-0.5 transform font-medium"
+        >
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path>
+          </svg>
+          <span data-i18n="projects.github">GitHub</span>
+        </a>
+        <a
+          id="modalLive"
+          href="#"
+          target="_blank"
+          rel="noopener noreferrer"
+          class="hidden inline-flex items-center gap-2 px-5 py-2 bg-brand-red text-white rounded-full hover:bg-brand-red/80 transition-all duration-300 shadow-md hover:shadow-lg hover:-translate-y-0.5 transform font-medium"
+        >
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+          </svg>
+          <span data-i18n="projects.liveProject">Live Project</span>
+        </a>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<script>
+  interface ProjectData {
+    title: string;
+    description: string;
+    descriptionEs: string;
+    tags: string[];
+    images: string[];
+    githubLink: string;
+    liveLink: string;
+  }
+
+  const modal = document.getElementById('projectModal')!;
+  const track = document.getElementById('carouselTrack')!;
+  const dots = document.getElementById('carouselDots')!;
+  const prevBtn = document.getElementById('carouselPrev')!;
+  const nextBtn = document.getElementById('carouselNext')!;
+  const closeBtn = document.getElementById('modalClose')!;
+
+  let currentIndex = 0;
+  let images: string[] = [];
+
+  function updateSlide() {
+    (track as HTMLElement).style.transform = `translateX(-${currentIndex * 100}%)`;
+    dots.querySelectorAll<HTMLButtonElement>('.dot').forEach((dot, i) => {
+      dot.classList.toggle('bg-white', i === currentIndex);
+      dot.classList.toggle('bg-white/40', i !== currentIndex);
+    });
+  }
+
+  function openModal(data: ProjectData) {
+    // Title
+    document.getElementById('modalTitle')!.textContent = data.title;
+
+    // Description
+    document.getElementById('modalDescEn')!.textContent = data.description;
+    document.getElementById('modalDescEs')!.textContent = data.descriptionEs;
+
+    // Re-apply current lang to new content
+    const lang = document.documentElement.getAttribute('data-lang') || 'en';
+    const descEn = document.getElementById('modalDescEn')!;
+    const descEs = document.getElementById('modalDescEs')!;
+    descEn.style.display = lang === 'es' ? 'none' : '';
+    descEs.style.display = lang === 'es' ? '' : 'none';
+
+    // Tags
+    const tagsEl = document.getElementById('modalTags')!;
+    tagsEl.innerHTML = data.tags.map(tag =>
+      `<span class="bg-gray-100 text-gray-800 px-2 py-1 rounded-full text-xs hover:bg-brand-navy/10 transition-colors">${tag}</span>`
+    ).join('');
+
+    // Links
+    const githubEl = document.getElementById('modalGithub') as HTMLAnchorElement;
+    githubEl.href = data.githubLink;
+
+    const liveEl = document.getElementById('modalLive') as HTMLAnchorElement;
+    if (data.liveLink) {
+      liveEl.href = data.liveLink;
+      liveEl.classList.remove('hidden');
+    } else {
+      liveEl.classList.add('hidden');
+    }
+
+    // Carousel
+    images = data.images;
+    currentIndex = 0;
+    track.innerHTML = images.map(src =>
+      `<img src="${src}" alt="" class="w-full h-full object-cover flex-shrink-0" style="min-width:100%" />`
+    ).join('');
+
+    const multipleImages = images.length > 1;
+    prevBtn.classList.toggle('hidden', !multipleImages);
+    nextBtn.classList.toggle('hidden', !multipleImages);
+    dots.classList.toggle('hidden', !multipleImages);
+
+    if (multipleImages) {
+      dots.innerHTML = images.map((_, i) =>
+        `<button class="dot w-2.5 h-2.5 rounded-full transition-colors ${i === 0 ? 'bg-white' : 'bg-white/40'}" data-index="${i}" aria-label="Go to image ${i + 1}"></button>`
+      ).join('');
+    }
+
+    updateSlide();
+
+    // Show modal
+    modal.classList.remove('hidden');
+    modal.classList.add('flex');
+    document.body.style.overflow = 'hidden';
+  }
+
+  function closeModal() {
+    modal.classList.add('hidden');
+    modal.classList.remove('flex');
+    document.body.style.overflow = '';
+  }
+
+  // Event delegation: open modal on card button click
+  document.addEventListener('click', (e) => {
+    const btn = (e.target as Element).closest('.open-modal-btn');
+    if (btn) {
+      const raw = btn.getAttribute('data-project');
+      if (raw) openModal(JSON.parse(raw) as ProjectData);
+    }
+  });
+
+  // Carousel controls
+  prevBtn.addEventListener('click', () => {
+    currentIndex = (currentIndex - 1 + images.length) % images.length;
+    updateSlide();
+  });
+
+  nextBtn.addEventListener('click', () => {
+    currentIndex = (currentIndex + 1) % images.length;
+    updateSlide();
+  });
+
+  dots.addEventListener('click', (e) => {
+    const dot = (e.target as Element).closest<HTMLButtonElement>('.dot');
+    if (dot) {
+      currentIndex = Number(dot.dataset.index);
+      updateSlide();
+    }
+  });
+
+  // Close on button or backdrop click
+  closeBtn.addEventListener('click', closeModal);
+  modal.addEventListener('click', (e) => {
+    if (e.target === modal) closeModal();
+  });
+
+  // Close on Escape
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') closeModal();
+  });
+
+  // Re-apply lang to modal description when language toggles
+  document.addEventListener('langChanged', () => {
+    const lang = document.documentElement.getAttribute('data-lang') || 'en';
+    const descEn = document.getElementById('modalDescEn')!;
+    const descEs = document.getElementById('modalDescEs')!;
+    if (descEn && descEs) {
+      descEn.style.display = lang === 'es' ? 'none' : '';
+      descEs.style.display = lang === 'es' ? '' : 'none';
+    }
+  });
+</script>

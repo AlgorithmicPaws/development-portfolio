@@ -1,11 +1,11 @@
 <header id="main-header" class="sticky top-0 z-50 flex justify-between items-center border-b-2 border-black max-w-full bg-white/90 backdrop-blur-sm shadow-sm transition-shadow duration-300">
     <img class="w-20 h-12 rounded-full pl-4 pr-4 hover:scale-110 transition-transform duration-300" src="/logo.svg" alt="logo" />
-    
+
     <div class="min-w-0 max-w-8xl w-full pt-4 pb-4">
-        <div class="min-w-0 w-full bg-[rgb(200,35,55)] h-1"></div>
-        <div class="min-w-0 w-full bg-[rgb(224,98,54)] h-1"></div>
-        <div class="min-w-0 w-full bg-[rgb(215,171,97)] h-1"></div>
-        <div class="min-w-0 w-full bg-[rgb(47,76,121)] h-1"></div>
+        <div class="min-w-0 w-full bg-brand-red h-1"></div>
+        <div class="min-w-0 w-full bg-brand-orange h-1"></div>
+        <div class="min-w-0 w-full bg-brand-gold h-1"></div>
+        <div class="min-w-0 w-full bg-brand-navy h-1"></div>
     </div>
 
     <button id="hamburger" class="md:hidden flex flex-col gap-1.5 p-4 mr-4 z-50" aria-label="Toggle menu">
@@ -14,21 +14,23 @@
         <span class="hamburger-line w-6 h-0.5 bg-black transition-all duration-300"></span>
     </button>
 
-    <nav class="hidden md:flex font-extrabold justify-end gap-12 p-4 mr-4 md:mr-14 text-base md:text-xl">
-        <a href="#home" class="hover:text-[rgb(47,76,121)] hover:underline transition-colors">Home</a>
-        <a href="#projects" class="hover:text-[rgb(47,76,121)] hover:underline transition-colors">Projects</a>
-        <a href="#experience" class="hover:text-[rgb(47,76,121)] hover:underline transition-colors">Experience</a>
-        <a href="#contact" class="hover:text-[rgb(47,76,121)] hover:underline transition-colors">Contact</a>
+    <nav class="hidden md:flex font-extrabold justify-end items-center gap-12 p-4 mr-4 md:mr-14 text-base md:text-xl">
+        <a href="#home" class="hover:text-brand-navy hover:underline transition-colors" data-i18n="nav.home">Home</a>
+        <a href="#projects" class="hover:text-brand-navy hover:underline transition-colors" data-i18n="nav.projects">Projects</a>
+        <a href="#experience" class="hover:text-brand-navy hover:underline transition-colors" data-i18n="nav.experience">Experience</a>
+        <a href="#contact" class="hover:text-brand-navy hover:underline transition-colors" data-i18n="nav.contact">Contact</a>
+        <button class="lang-toggle text-sm font-bold border-2 border-brand-navy text-brand-navy px-3 py-1 rounded-full hover:bg-brand-navy hover:text-white transition-colors" aria-label="Toggle language">🌐 ES</button>
     </nav>
 
     <div id="menu-overlay" class="fixed inset-0 z-40 hidden"></div>
 
     <nav id="mobile-menu" class="fixed top-[3.2rem] -right-64 w-64 h-[calc(100vh-3.2rem)] bg-white/95 backdrop-blur-sm border-l-2 border-b-2 border-black shadow-lg z-50 hidden overflow-hidden">
         <div class="flex flex-col font-extrabold gap-6 p-8 text-xl">
-            <a href="#home" class="hover:text-[rgb(47,76,121)] hover:underline transition-colors mobile-link">Home</a>
-            <a href="#projects" class="hover:text-[rgb(47,76,121)] hover:underline transition-colors mobile-link">Projects</a>
-            <a href="#experience" class="hover:text-[rgb(47,76,121)] hover:underline transition-colors mobile-link">Experience</a>
-            <a href="#contact" class="hover:text-[rgb(47,76,121)] hover:underline transition-colors mobile-link">Contact</a>
+            <a href="#home" class="hover:text-brand-navy hover:underline transition-colors mobile-link" data-i18n="nav.home">Home</a>
+            <a href="#projects" class="hover:text-brand-navy hover:underline transition-colors mobile-link" data-i18n="nav.projects">Projects</a>
+            <a href="#experience" class="hover:text-brand-navy hover:underline transition-colors mobile-link" data-i18n="nav.experience">Experience</a>
+            <a href="#contact" class="hover:text-brand-navy hover:underline transition-colors mobile-link" data-i18n="nav.contact">Contact</a>
+            <button class="lang-toggle self-start text-sm font-bold border-2 border-brand-navy text-brand-navy px-3 py-1 rounded-full hover:bg-brand-navy hover:text-white transition-colors" aria-label="Toggle language">🌐 ES</button>
         </div>
     </nav>
 </header>
@@ -68,43 +70,23 @@
     }
 
     @keyframes slideIn {
-        0% {
-            right: -16rem;
-            opacity: 0;
-        }
-        100% {
-            right: 0;
-            opacity: 1;
-        }
+        0% { right: -16rem; opacity: 0; }
+        100% { right: 0; opacity: 1; }
     }
 
     @keyframes slideOut {
-        0% {
-            right: 0;
-            opacity: 1;
-        }
-        100% {
-            right: -16rem;
-            opacity: 0;
-        }
+        0% { right: 0; opacity: 1; }
+        100% { right: -16rem; opacity: 0; }
     }
 
     @keyframes fadeIn {
-        0% {
-            opacity: 0;
-        }
-        100% {
-            opacity: 1;
-        }
+        0% { opacity: 0; }
+        100% { opacity: 1; }
     }
 
     @keyframes fadeOut {
-        0% {
-            opacity: 1;
-        }
-        100% {
-            opacity: 0;
-        }
+        0% { opacity: 1; }
+        100% { opacity: 0; }
     }
 </style>
 
@@ -121,16 +103,13 @@
 
     function openMenu() {
         if (!mobileMenu || !menuOverlay) return;
-        
         isOpen = true;
         body.classList.add('menu-open');
         mainHeader?.classList.add('header-menu-open');
-        
         mobileMenu.classList.remove('hidden', 'menu-closing');
         mobileMenu.classList.add('menu-open');
         menuOverlay.classList.remove('hidden', 'overlay-closing');
         menuOverlay.classList.add('overlay-open');
-        
         hamburgerLines[0]?.classList.add('rotate-45', 'translate-y-2');
         hamburgerLines[1]?.classList.add('opacity-0');
         hamburgerLines[2]?.classList.add('-rotate-45', '-translate-y-2');
@@ -138,20 +117,16 @@
 
     function closeMenu() {
         if (!mobileMenu || !menuOverlay) return;
-        
         isOpen = false;
         body.classList.remove('menu-open');
         mainHeader?.classList.remove('header-menu-open');
-        
         mobileMenu.classList.remove('menu-open');
         mobileMenu.classList.add('menu-closing');
         menuOverlay.classList.remove('overlay-open');
         menuOverlay.classList.add('overlay-closing');
-        
         hamburgerLines[0]?.classList.remove('rotate-45', 'translate-y-2');
         hamburgerLines[1]?.classList.remove('opacity-0');
         hamburgerLines[2]?.classList.remove('-rotate-45', '-translate-y-2');
-
         setTimeout(() => {
             if (mobileMenu && menuOverlay) {
                 mobileMenu.classList.add('hidden');
@@ -165,19 +140,10 @@
     if (hamburger) {
         hamburger.addEventListener('click', (e) => {
             e.stopPropagation();
-            if (isOpen) {
-                closeMenu();
-            } else {
-                openMenu();
-            }
+            isOpen ? closeMenu() : openMenu();
         });
     }
 
-    if (menuOverlay) {
-        menuOverlay.addEventListener('click', closeMenu);
-    }
-
-    mobileLinks.forEach(link => {
-        link.addEventListener('click', closeMenu);
-    });
+    if (menuOverlay) menuOverlay.addEventListener('click', closeMenu);
+    mobileLinks.forEach((link) => link.addEventListener('click', closeMenu));
 </script>
