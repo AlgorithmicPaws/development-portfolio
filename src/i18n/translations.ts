@@ -4,10 +4,10 @@ export const translations = {
     hero: {
       name: "Hey, I'm Sergio Florez",
       badge: 'Available for work',
-      role1: 'Computer scientist',
-      desc1: ' passionate about web development. ',
+      role1: 'Software Engineer',
+      desc1: ' specialized in high-performance APIs, data analysis, and AI. ',
       role2: 'Full-stack developer',
-      desc2: ' with +2 years of experience building useful and stylish web apps. From Bogota, Colombia 🇨🇴.',
+      desc2: ' with +3 years of experience in Fine Tuning models, AWS, and production-ready systems. From Bogota, Colombia 🇨🇴.',
     },
     projects: { title: 'My Projects', viewProject: 'View Project', viewDetails: 'View Details', github: 'GitHub', liveProject: 'Live Project' },
     experience: {
@@ -29,10 +29,10 @@ export const translations = {
     hero: {
       name: 'Hola, soy Sergio Florez',
       badge: 'Disponible para trabajar',
-      role1: 'Científico de computación',
-      desc1: ' apasionado por el desarrollo web. ',
-      role2: 'Desarrollador Full-stack',
-      desc2: ' con +2 años de experiencia construyendo aplicaciones útiles y elegantes. De Bogotá, Colombia 🇨🇴.',
+      role1: 'Ingeniero de Software',
+      desc1: ' especializado en APIs de alto rendimiento, análisis de datos e IA. ',
+      role2: 'Desarrollador Full Stack',
+      desc2: ' con +3 años de experiencia en Fine Tuning de modelos, AWS y sistemas listos para producción. De Bogotá, Colombia 🇨🇴.',
     },
     projects: { title: 'Mis Proyectos', viewProject: 'Ver Proyecto', viewDetails: 'Ver Detalles', github: 'GitHub', liveProject: 'Proyecto en Vivo' },
     experience: {
