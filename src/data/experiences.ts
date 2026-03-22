@@ -18,7 +18,7 @@ export const experiencesEN: Experience[] = [
     ]
   },
   {
-    title: "Systems Auditor",
+    title: "AI Developer and Backend Lead",
     company: "Rubber Duck 2.0 Project",
     location: "Bogotá, Colombia",
     date: "August 2025 - November 2025",
@@ -103,7 +103,7 @@ export const experiencesES: Experience[] = [
     ]
   },
   {
-    title: "Auditor de Sistemas",
+    title: "Desarrollador IA y Líder Backend",
     company: "Proyecto Rubber Duck 2.0",
     location: "Bogotá, Colombia",
     date: "Agosto 2025 - Noviembre 2025",
