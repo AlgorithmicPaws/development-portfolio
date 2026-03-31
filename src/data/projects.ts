@@ -12,6 +12,17 @@ export interface Project {
 
 export const projects: Project[] = [
   {
+    title: "Focus Timers",
+    description: "Productivity web app with Pomodoro, Flowtime, and Time Budget techniques. Full-stack with React + TypeScript, FastAPI, PostgreSQL, JWT auth, and CI/CD. Reached 50+ concurrent users in the academic community.",
+    descriptionEs: "Aplicación web de productividad con técnicas Pomodoro, Flowtime y Bolsa de Tiempo. Full-stack con React + TypeScript, FastAPI, PostgreSQL, autenticación JWT y CI/CD. Alcanzó más de 50 usuarios concurrentes en la comunidad académica.",
+    longDescription: "A productivity web application implementing three evidence-based time management techniques: Pomodoro (focused work intervals with short breaks), Flowtime (open-ended focus sessions that end when you decide), and Time Budget (flexible time banking per task). Built with React 18 + TypeScript and Tailwind CSS v4 on the frontend using Feature-Sliced Design, Zustand for auth state, and TanStack Query for server state. The backend is FastAPI + SQLAlchemy 2.0 with PostgreSQL on Supabase, JWT authentication with refresh tokens, rate limiting, and Alembic migrations. Deployed with Vercel (frontend) and Railway (backend), with full CI/CD via GitHub Actions. Organically grew to 50+ concurrent users and 500+ monthly visits, becoming a go-to study tool in the university community.",
+    longDescriptionEs: "Aplicación web de productividad que implementa tres técnicas de gestión del tiempo basadas en evidencia: Pomodoro (intervalos de trabajo enfocado con pausas cortas), Flowtime (sesiones de enfoque abiertas que terminan cuando decides) y Bolsa de Tiempo (presupuesto de tiempo flexible por tarea). Construida con React 18 + TypeScript y Tailwind CSS v4 en el frontend usando Feature-Sliced Design, Zustand para estado de auth y TanStack Query para estado del servidor. El backend usa FastAPI + SQLAlchemy 2.0 con PostgreSQL en Supabase, autenticación JWT con refresh tokens, rate limiting y migraciones con Alembic. Desplegada con Vercel (frontend) y Railway (backend), con CI/CD completo vía GitHub Actions. Creció orgánicamente hasta más de 50 usuarios concurrentes y 500+ visitas mensuales, convirtiéndose en una herramienta habitual en la comunidad universitaria.",
+    tags: ["React", "TypeScript", "FastAPI", "PostgreSQL", "Zustand", "TanStack Query", "Tailwind CSS"],
+    images: ["/projects/focus-timers.png"],
+    githubLink: "https://github.com/AlgorithmicPaws/focus-timers",
+    liveLink: "https://focus-timers-3uxl.vercel.app/",
+  },
+  {
     title: "Rubber Duck 2.0",
     description: "Physical intelligent assistant using AI to help programmers solve errors through guided questioning, based on the rubber duck debugging technique.",
     descriptionEs: "Asistente físico inteligente que usa IA para ayudar a programadores a resolver errores mediante preguntas guiadas, basado en la técnica rubber duck debugging.",
@@ -30,16 +41,6 @@ export const projects: Project[] = [
     tags: ["React", "TypeScript", "FastAPI", "MySQL", "Docker"],
     images: ["/projects/chinook.svg"],
     githubLink: "https://github.com/AlgorithmicPaws/bigdata",
-  },
-  {
-    title: "Focus Timers",
-    description: "Productivity web app implementing Pomodoro, Time Bag, and Time Blocking techniques. Reached 50 concurrent users and 500+ monthly visits in the academic community.",
-    descriptionEs: "Aplicación web de productividad con técnicas Pomodoro, Time Bag y Time Blocking. Alcanzó 50 usuarios concurrentes y más de 500 visitas mensuales en la comunidad académica.",
-    longDescription: "A productivity web application implementing three evidence-based time management techniques: Pomodoro (focused work intervals with short breaks), Time Bag (flexible time budgeting per task), and Time Blocking (calendar-based daily scheduling). Built as a lightweight single-page app, it prioritizes a distraction-free experience. It organically grew to 50 concurrent users and 500+ monthly visits, becoming a go-to study tool in the university community for managing exam prep, project sprints, and daily study sessions.",
-    longDescriptionEs: "Aplicación web de productividad que implementa tres técnicas de gestión del tiempo basadas en evidencia: Pomodoro (intervalos de trabajo enfocado con pausas cortas), Time Bag (presupuesto de tiempo flexible por tarea) y Time Blocking (programación diaria basada en calendario). Desarrollada como una SPA ligera priorizando una experiencia libre de distracciones. Creció orgánicamente hasta 50 usuarios concurrentes y más de 500 visitas mensuales, convirtiéndose en una herramienta habitual en la comunidad universitaria para gestionar preparación de exámenes, sprints de proyectos y sesiones de estudio diarias.",
-    tags: ["React", "FastAPI", "MySQL"],
-    images: ["/projects/focus-timers.png"],
-    githubLink: "https://github.com/AlgorithmicPaws/focus-timers",
   },
   {
     title: "VIP SCM Marketplace",
